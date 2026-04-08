@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Слова</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F5F2EC;
+    --card: #FFFDF8;
+    --ink: #1A1612;
+    --ink2: #6B5E52;
+    --ink3: #A8998D;
+    --accent: #2E5C3E;
+    --accent-light: #EAF2ED;
+    --red: #8B2E2E;
+    --red-light: #F5EAEA;
+    --border: rgba(26,22,18,0.1);
+    --shadow: 0 2px 20px rgba(26,22,18,0.08);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+  }
+
+  /* ── Screens ── */
+  .screen { display: none; width: 100%; max-width: 520px; }
+  .screen.active { display: block; }
+
+  /* ── Home ── */
+  .home-header { text-align: center; margin-bottom: 3rem; padding-top: 1rem; }
+  .home-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  .home-header p { color: var(--ink2); font-size: 0.95rem; font-weight: 300; }
+
+  .mode-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    box-shadow: var(--shadow);
+  }
+  .mode-card:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(26,22,18,0.12); }
+  .mode-card:active { transform: translateY(0); }
+  .mode-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .mode-icon.ru { background: #EEF0F9; }
+  .mode-icon.en { background: #EAF2ED; }
+  .mode-info h3 { font-size: 1rem; font-weight: 500; margin-bottom: 2px; }
+  .mode-info p { font-size: 0.82rem; color: var(--ink3); }
+
+  .home-stats {
+    margin-top: 2rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .home-stats-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink3); margin-bottom: 1rem; }
+  .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { font-size: 0.88rem; color: var(--ink2); }
+  .stat-val { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+
+  .progress-track {
+    height: 5px; background: var(--border); border-radius: 3px;
+    margin-top: 1rem; overflow: hidden;
+  }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.5s ease; }
+
+  /* ── Quiz ── */
+  .quiz-top {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  .quiz-back {
+    background: none; border: none; cursor: pointer;
+    color: var(--ink2); font-size: 0.88rem; font-family: 'DM Sans', sans-serif;
+    display: flex; align-items: center; gap: 6px; padding: 0;
+  }
+  .quiz-back:hover { color: var(--ink); }
+  .quiz-counter { font-size: 0.82rem; color: var(--ink3); }
+
+  .quiz-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+    animation: slideIn 0.25s ease;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .quiz-direction {
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--ink3); margin-bottom: 1.2rem;
+  }
+  .quiz-word {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem; font-weight: 400;
+    line-height: 1.2; margin-bottom: 2rem;
+  }
+
+  .quiz-input {
+    width: 100%;
+    font-size: 1.1rem; font-family: 'DM Sans', sans-serif;
+    padding: 0.9rem 1.2rem;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg);
+    color: var(--ink);
+    outline: none;
+    text-align: center;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .quiz-input:focus { border-color: var(--accent); background: var(--card); }
+  .quiz-input.ok { border-color: var(--accent); background: var(--accent-light); }
+  .quiz-input.err { border-color: var(--red); background: var(--red-light); }
+
+  .quiz-feedback {
+    min-height: 1.4rem; font-size: 0.9rem; margin-top: 0.8rem;
+    font-weight: 500;
+  }
+  .quiz-feedback.ok { color: var(--accent); }
+  .quiz-feedback.err { color: var(--red); }
+
+  .dots {
+    display: flex; gap: 5px; justify-content: center; margin-top: 1.2rem;
+  }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #DDD8D2; transition: background 0.3s;
+  }
+  .dot.filled { background: var(--accent); }
+  .dot.dim { background: #C8E3D1; }
+
+  .quiz-btn {
+    width: 100%;
+    padding: 0.95rem;
+    background: var(--ink);
+    color: var(--bg);
+    border: none; border-radius: 12px;
+    font-size: 0.95rem; font-family: 'DM Sans', sans-serif; font-weight: 500;
+    cursor: pointer; margin-top: 0.75rem;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .quiz-btn:hover { background: #333; }
+  .quiz-btn:active { transform: scale(0.99); }
+
+  .skip-link {
+    display: block; text-align: center; margin-top: 0.6rem;
+    font-size: 0.82rem; color: var(--ink3); cursor: pointer;
+  }
+  .skip-link:hover { color: var(--ink2); }
+
+  /* ── Learned banner ── */
+  .done-screen { text-align: center; padding: 3rem 1rem; }
+  .done-screen h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; margin-bottom: 0.6rem;
+  }
+  .done-screen p { color: var(--ink2); margin-bottom: 2rem; font-size: 0.9rem; }
+  .done-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 2rem; }
+  .done-tag {
+    font-size: 0.82rem; padding: 5px 14px;
+    background: var(--accent-light); color: var(--accent);
+    border-radius: 20px;
+  }
+  .reset-btn {
+    padding: 0.85rem 2.5rem;
+    border: 1.5px solid var(--ink); border-radius: 12px;
+    background: none; color: var(--ink);
+    font-size: 0.9rem; font-family: 'DM Sans', sans-serif;
+    cursor: pointer; transition: background 0.15s;
+  }
+  .reset-btn:hover { background: var(--border); }
+
+  /* ── Edit words ── */
+  .edit-link {
+    display: block; text-align: center; margin-top: 1.5rem;
+    font-size: 0.82rem; color: var(--ink3); cursor: pointer;
+  }
+  .edit-link:hover { color: var(--ink2); }
+
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(26,22,18,0.4); z-index: 100;
+    align-items: center; justify-content: center; padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--card); border-radius: 20px; padding: 1.5rem;
+    width: 100%; max-width: 480px; max-height: 80vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+  }
+  .modal h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.4rem; }
+  .modal-note { font-size: 0.8rem; color: var(--ink3); margin-bottom: 1rem; }
+  .modal textarea {
+    flex: 1; min-height: 260px; resize: vertical;
+    font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+    padding: 0.8rem; border: 1px solid var(--border); border-radius: 10px;
+    background: var(--bg); color: var(--ink); outline: none;
+    line-height: 1.6;
+  }
+  .modal-buttons { display: flex; gap: 8px; margin-top: 1rem; }
+  .modal-buttons button {
+    flex: 1; padding: 0.8rem; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem; cursor: pointer;
+  }
+  .modal-save { background: var(--ink); color: var(--bg); border: none; }
+  .modal-save:hover { background: #333; }
+  .modal-cancel { background: none; border: 1px solid var(--border); color: var(--ink2); }
+  .modal-cancel:hover { background: var(--bg); }
+</style>
+</head>
+<body>
+
+<!-- ─── HOME ─── -->
+<div class="screen active" id="screen-home">
+  <div class="home-header">
+    <h1>Слова</h1>
+    <p>Выберите направление перевода</p>
+  </div>
+
+  <div class="mode-card" onclick="startQuiz('ru-en')">
+    <div class="mode-icon ru">🇷🇺</div>
+    <div class="mode-info">
+      <h3>Русский → Английский</h3>
+      <p>Видите русское слово — пишете по-английски</p>
+    </div>
+  </div>
+
+  <div class="mode-card" onclick="startQuiz('en-ru')">
+    <div class="mode-icon en">🇬🇧</div>
+    <div class="mode-info">
+      <h3>Английский → Русский</h3>
+      <p>Видите английское слово — пишете по-русски</p>
+    </div>
+  </div>
+
+  <div class="home-stats" id="home-stats"></div>
+
+  <span class="edit-link" onclick="openEdit()">✏️ Редактировать список слов</span>
+</div>
+
+<!-- ─── QUIZ ─── -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz-top">
+    <button class="quiz-back" onclick="goHome()">← Назад</button>
+    <span class="quiz-counter" id="quiz-counter"></span>
+  </div>
+
+  <div class="quiz-card" id="quiz-card">
+    <div class="quiz-direction" id="quiz-dir"></div>
+    <div class="quiz-word" id="quiz-word"></div>
+    <input class="quiz-input" id="quiz-input" type="text"
+      autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+      placeholder="Введите перевод..." />
+    <div class="quiz-feedback" id="quiz-feedback"></div>
+    <div class="dots" id="quiz-dots"></div>
+  </div>
+
+  <button class="quiz-btn" id="quiz-btn" onclick="handleBtn()">Проверить</button>
+  <span class="skip-link" onclick="skipWord()">Пропустить</span>
+</div>
+
+<!-- ─── ALL LEARNED ─── -->
+<div class="screen" id="screen-done">
+  <div class="done-screen">
+    <h2>Все слова выучены!</h2>
+    <p>Словарный запас пополнен. Так держать.</p>
+    <div class="done-tags" id="done-tags"></div>
+    <button class="reset-btn" onclick="resetProgress()">Начать заново</button>
+  </div>
+</div>
+
+<!-- ─── EDIT MODAL ─── -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3>Список слов</h3>
+    <p class="modal-note">Каждая строка: русское слово — перевод (через дефис или двоеточие)<br>Например: <em>яблоко - apple</em></p>
+    <textarea id="modal-ta"></textarea>
+    <div class="modal-buttons">
+      <button class="modal-cancel" onclick="closeEdit()">Отмена</button>
+      <button class="modal-save" onclick="saveWords()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── Default word list ───────────────────────────────────────────────
+const DEFAULT_WORDS = [
+  {ru:"яблоко",en:"apple"},{ru:"дом",en:"house"},{ru:"книга",en:"book"},
+  {ru:"кошка",en:"cat"},{ru:"собака",en:"dog"},{ru:"вода",en:"water"},
+  {ru:"время",en:"time"},{ru:"солнце",en:"sun"},{ru:"луна",en:"moon"},
+  {ru:"друг",en:"friend"},{ru:"работа",en:"work"},{ru:"город",en:"city"},
+  {ru:"школа",en:"school"},{ru:"машина",en:"car"},{ru:"дерево",en:"tree"},
+  {ru:"цветок",en:"flower"},{ru:"небо",en:"sky"},{ru:"море",en:"sea"},
+  {ru:"музыка",en:"music"},{ru:"еда",en:"food"},{ru:"стол",en:"table"},
+  {ru:"стул",en:"chair"},{ru:"окно",en:"window"},{ru:"дверь",en:"door"},
+  {ru:"красивый",en:"beautiful"},{ru:"быстрый",en:"fast"},{ru:"большой",en:"big"},
+  {ru:"маленький",en:"small"},{ru:"новый",en:"new"},{ru:"старый",en:"old"},
+];
+
+const NEEDED_SEEN   = 3;
+const NEEDED_RIGHT  = 5;
+const STORAGE_WORDS = 'wordtrainer_words';
+const STORAGE_STATS = 'wordtrainer_stats';
+
+// ─── State ───────────────────────────────────────────────────────────
+let words = [];
+let stats = {};   // { [en]: { seen: 0, correct: 0, learned: false } }
+let mode  = 'ru-en';
+let current = null;
+let phase = 'input'; // 'input' | 'next'
+let wrongStreak = 0;
+
+// ─── Persistence ─────────────────────────────────────────────────────
+function loadData() {
+  try {
+    const sw = localStorage.getItem(STORAGE_WORDS);
+    words = sw ? JSON.parse(sw) : DEFAULT_WORDS;
+  } catch { words = DEFAULT_WORDS; }
+  try {
+    const ss = localStorage.getItem(STORAGE_STATS);
+    stats = ss ? JSON.parse(ss) : {};
+  } catch { stats = {}; }
+  // ensure every word has a stats entry
+  words.forEach(w => {
+    if (!stats[w.en]) stats[w.en] = { seen: 0, correct: 0, learned: false };
+  });
+}
+
+function saveData() {
+  try {
+    localStorage.setItem(STORAGE_WORDS, JSON.stringify(words));
+    localStorage.setItem(STORAGE_STATS, JSON.stringify(stats));
+  } catch(e) {}
+}
+
+// ─── Helpers ─────────────────────────────────────────────────────────
+function normalize(s) { return s.trim().toLowerCase().replace(/[.,!?;:'"]/g, ''); }
+
+function activeWords() { return words.filter(w => !stats[w.en]?.learned); }
+
+function pickWord() {
+  const pool = activeWords();
+  if (!pool.length) return null;
+  // weight: prefer words with fewer correct answers
+  const weights = pool.map(w => Math.max(1, NEEDED_RIGHT - (stats[w.en]?.correct || 0) + 1));
+  const total = weights.reduce((a, b) => a + b, 0);
+  let r = Math.random() * total;
+  for (let i = 0; i < pool.length; i++) {
+    r -= weights[i];
+    if (r <= 0) return pool[i];
+  }
+  return pool[pool.length - 1];
+}
+
+// ─── UI helpers ──────────────────────────────────────────────────────
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function renderHome() {
+  const total   = words.length;
+  const learned = words.filter(w => stats[w.en]?.learned).length;
+  const pct     = total ? Math.round(learned / total * 100) : 0;
+
+  const ruLearned = words.filter(w => stats[w.en]?.learned).length;
+
+  document.getElementById('home-stats').innerHTML = `
+    <div class="home-stats-title">Прогресс</div>
+    <div class="stat-row">
+      <span class="stat-label">Всего слов</span>
+      <span class="stat-val">${total}</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Выучено</span>
+      <span class="stat-val" style="color:var(--accent)">${learned}</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Осталось</span>
+      <span class="stat-val">${total - learned}</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width:${pct}%"></div>
+    </div>
+  `;
+  show('screen-home');
+}
+
+// ─── Quiz flow ───────────────────────────────────────────────────────
+function startQuiz(m) {
+  mode = m;
+  nextCard();
+}
+
+function nextCard() {
+  if (!activeWords().length) { showDone(); return; }
+  current = pickWord();
+  if (!current) { showDone(); return; }
+
+  stats[current.en].seen++;
+  saveData();
+
+  phase = 'input';
+  wrongStreak = 0;
+
+  const prompt = mode === 'ru-en' ? current.ru : current.en;
+  const s = stats[current.en];
+
+  document.getElementById('quiz-dir').textContent =
+    mode === 'ru-en' ? 'Переведите на английский' : 'Переведите на русский';
+  document.getElementById('quiz-word').textContent = prompt;
+
+  const inp = document.getElementById('quiz-input');
+  inp.value = '';
+  inp.className = 'quiz-input';
+  inp.disabled = false;
+
+  document.getElementById('quiz-feedback').textContent = '';
+  document.getElementById('quiz-feedback').className = 'quiz-feedback';
+  document.getElementById('quiz-btn').textContent = 'Проверить';
+
+  const correct = s.correct || 0;
+  const dots = Array.from({length: NEEDED_RIGHT}, (_, i) =>
+    `<div class="dot ${i < correct ? 'filled' : ''}"></div>`
+  ).join('');
+  document.getElementById('quiz-dots').innerHTML = dots;
+
+  const total  = words.length;
+  const learned = words.filter(w => stats[w.en]?.learned).length;
+  document.getElementById('quiz-counter').textContent = `${learned} / ${total} выучено`;
+
+  show('screen-quiz');
+  setTimeout(() => inp.focus(), 50);
+}
+
+function handleBtn() {
+  if (phase === 'next') { animateNext(); return; }
+
+  const inp  = document.getElementById('quiz-input');
+  const val  = inp.value.trim();
+  if (!val) return;
+
+  const answer  = mode === 'ru-en' ? current.en : current.ru;
+  const correct = normalize(val) === normalize(answer);
+  const fb      = document.getElementById('quiz-feedback');
+
+  if (correct) {
+    stats[current.en].correct++;
+
+    // check if learned
+    if (stats[current.en].seen >= NEEDED_SEEN && stats[current.en].correct >= NEEDED_RIGHT) {
+      stats[current.en].learned = true;
+      fb.textContent = '✓ Правильно! Слово выучено 🎉';
+    } else {
+      fb.textContent = '✓ Правильно!';
+    }
+    fb.className = 'quiz-feedback ok';
+    inp.className = 'quiz-input ok';
+    inp.disabled = true;
+    saveData();
+
+    // update dots
+    const correct2 = Math.min(stats[current.en].correct, NEEDED_RIGHT);
+    const dots = Array.from({length: NEEDED_RIGHT}, (_, i) =>
+      `<div class="dot ${i < correct2 ? 'filled' : ''}"></div>`
+    ).join('');
+    document.getElementById('quiz-dots').innerHTML = dots;
+
+    phase = 'next';
+    document.getElementById('quiz-btn').textContent = 'Следующее →';
+    setTimeout(() => animateNext(), 1400);
+  } else {
+    wrongStreak++;
+    inp.className = 'quiz-input err';
+
+    if (wrongStreak >= 2) {
+      fb.textContent = `✗ Правильный ответ: ${answer}`;
+      fb.className = 'quiz-feedback err';
+      inp.disabled = true;
+      phase = 'next';
+      document.getElementById('quiz-btn').textContent = 'Следующее →';
+      setTimeout(() => animateNext(), 2200);
+    } else {
+      fb.textContent = '✗ Не то, попробуйте ещё раз';
+      fb.className = 'quiz-feedback err';
+      setTimeout(() => {
+        inp.className = 'quiz-input';
+        inp.value = '';
+        fb.textContent = '';
+        fb.className = 'quiz-feedback';
+        inp.focus();
+      }, 900);
+    }
+  }
+}
+
+function animateNext() {
+  const card = document.getElementById('quiz-card');
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(-6px)';
+  card.style.transition = 'opacity 0.2s, transform 0.2s';
+  setTimeout(() => {
+    card.style.opacity = '';
+    card.style.transform = '';
+    card.style.transition = '';
+    nextCard();
+  }, 220);
+}
+
+function skipWord() { animateNext(); }
+
+function goHome() { renderHome(); }
+
+function showDone() {
+  const tags = words.filter(w => stats[w.en]?.learned)
+    .map(w => `<div class="done-tag">${w.ru} — ${w.en}</div>`).join('');
+  document.getElementById('done-tags').innerHTML = tags;
+  show('screen-done');
+}
+
+function resetProgress() {
+  words.forEach(w => { stats[w.en] = { seen: 0, correct: 0, learned: false }; });
+  saveData();
+  renderHome();
+}
+
+// ─── Edit words ───────────────────────────────────────────────────────
+function openEdit() {
+  const text = words.map(w => `${w.ru} - ${w.en}`).join('\n');
+  document.getElementById('modal-ta').value = text;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeEdit() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+function saveWords() {
+  const lines = document.getElementById('modal-ta').value
+    .split('\n')
+    .map(l => l.trim())
+    .filter(Boolean);
+
+  const parsed = [];
+  for (const line of lines) {
+    // support dash or colon separator
+    const m = line.match(/^(.+?)\s*[-–:]\s*(.+)$/);
+    if (m) parsed.push({ ru: m[1].trim(), en: m[2].trim() });
+  }
+
+  if (!parsed.length) { alert('Список пустой или неверный формат.'); return; }
+
+  // merge stats — keep progress for existing words
+  const newStats = {};
+  parsed.forEach(w => {
+    newStats[w.en] = stats[w.en] || { seen: 0, correct: 0, learned: false };
+  });
+
+  words = parsed;
+  stats = newStats;
+  saveData();
+  closeEdit();
+  renderHome();
+}
+
+// ─── Keyboard ─────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const active = document.querySelector('.screen.active');
+    if (active?.id === 'screen-quiz') handleBtn();
+  }
+  if (e.key === 'Escape') closeEdit();
+});
+
+// ─── Init ─────────────────────────────────────────────────────────────
+loadData();
+renderHome();
+</script>
+</body>
+</html>
