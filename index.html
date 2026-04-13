@@ -15,10 +15,6 @@
   body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem 4rem; }
   .screen { display: none; width: 100%; max-width: 520px; }
   .screen.active { display: block; }
-  #screen-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; text-align: center; }
-  .spinner { width: 32px; height: 32px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 1rem; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-text { color: var(--ink3); font-size: 0.9rem; }
   .error-box { background: var(--red-light); border: 1px solid var(--red); border-radius: 12px; padding: 1.2rem 1.5rem; color: var(--red); font-size: 0.88rem; line-height: 1.6; margin-top: 1rem; }
   .home-header { text-align: center; margin-bottom: 3rem; padding-top: 1rem; }
   .home-header h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.5rem; }
@@ -94,12 +90,7 @@
 </head>
 <body>
 
-<div id="screen-loading" class="screen active">
-  <div class="spinner"></div>
-  <div class="loading-text">Загружаем слова...</div>
-</div>
-
-<div class="screen" id="screen-home">
+<div class="screen active" id="screen-home">
   <div class="home-header"><h1>Слова</h1><p>Выберите направление перевода</p></div>
   <div class="mode-card" onclick="startQuiz('ru-en')">
     <div class="mode-icon ru">🇷🇺</div>
@@ -155,12 +146,11 @@ async function init() {
     words = await res.json();
     if (!Array.isArray(words) || !words.length) throw new Error('Пустой файл');
   } catch(e) {
-    document.querySelector('.loading-text').textContent = '';
-    document.querySelector('.spinner').style.display = 'none';
     const err = document.createElement('div');
     err.className = 'error-box';
     err.innerHTML = 'Не удалось загрузить <b>words.json</b>.<br>Убедитесь, что файл лежит рядом с <b>index.html</b>.<br><br>Ошибка: ' + e.message;
-    document.getElementById('screen-loading').appendChild(err);
+    document.getElementById('home-stats').appendChild(err);
+    show('screen-home');
     return;
   }
   try { const ss = localStorage.getItem(STORAGE_STATS); stats = ss ? JSON.parse(ss) : {}; } catch { stats = {}; }
@@ -336,6 +326,7 @@ document.addEventListener('keydown', e => {
   }
 });
 
+show('screen-home');
 init();
 </script>
 </body>
