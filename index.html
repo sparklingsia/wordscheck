@@ -16,77 +16,37 @@
   .screen { display: none; width: 100%; max-width: 520px; }
   .screen.active { display: block; }
 
-  /* Home */
-  .home-header { text-align: center; margin-bottom: 2rem; padding-top: 1rem; }
+  .home-header { text-align: center; margin-bottom: 3rem; padding-top: 1rem; }
   .home-header h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.5rem; }
   .home-header p { color: var(--ink2); font-size: 0.95rem; font-weight: 300; }
 
-  .section-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink3); margin-bottom: 0.75rem; margin-top: 1.5rem; }
+  .mode-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; display: flex; align-items: center; gap: 1.2rem; box-shadow: var(--shadow); }
+  .mode-card:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(26,22,18,0.12); }
+  .mode-card:active { transform: translateY(0); }
+  .mode-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+  .mode-icon.ru { background: #EEF0F9; } .mode-icon.en { background: #EAF2ED; }
+  .mode-info h3 { font-size: 1rem; font-weight: 500; margin-bottom: 2px; }
+  .mode-info p { font-size: 0.82rem; color: var(--ink3); }
 
-  /* Level cards */
-  .level-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 0.5rem; }
-  .level-card {
-    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-    padding: 1rem; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: var(--shadow); position: relative; overflow: hidden;
-  }
-  .level-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(26,22,18,0.12); }
-  .level-card:active { transform: translateY(0); }
-  .level-card.selected { border-color: var(--accent); border-width: 2px; }
-  .level-tag { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600; margin-bottom: 2px; }
-  .level-tag.a1 { color: #2E5C3E; }
-  .level-tag.a2 { color: #1A5276; }
-  .level-tag.b1 { color: #7D3C98; }
-  .level-tag.b2 { color: #A04000; }
-  .level-desc { font-size: 0.75rem; color: var(--ink3); }
-  .level-progress { font-size: 0.72rem; color: var(--ink2); margin-top: 6px; }
-  .level-bar { height: 3px; background: var(--border); border-radius: 2px; margin-top: 4px; overflow: hidden; }
-  .level-bar-fill { height: 100%; border-radius: 2px; transition: width 0.4s; }
-  .level-bar-fill.a1 { background: #2E5C3E; }
-  .level-bar-fill.a2 { background: #1A5276; }
-  .level-bar-fill.b1 { background: #7D3C98; }
-  .level-bar-fill.b2 { background: #A04000; }
+  .home-stats { margin-top: 2rem; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem 1.5rem; box-shadow: var(--shadow); }
+  .home-stats-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink3); margin-bottom: 1rem; }
+  .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { font-size: 0.88rem; color: var(--ink2); }
+  .stat-val { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+  .progress-track { height: 5px; background: var(--border); border-radius: 3px; margin-top: 1rem; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.5s ease; }
 
-  /* Direction buttons */
-  .dir-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .dir-card {
-    background: var(--card); border: 2px solid var(--border); border-radius: 14px;
-    padding: 1rem; cursor: pointer; transition: transform 0.15s, border-color 0.15s;
-    box-shadow: var(--shadow); text-align: center;
-  }
-  .dir-card:hover { transform: translateY(-2px); }
-  .dir-card .flag { font-size: 1.6rem; margin-bottom: 4px; }
-  .dir-card h3 { font-size: 0.88rem; font-weight: 500; margin-bottom: 2px; }
-  .dir-card p { font-size: 0.75rem; color: var(--ink3); }
-
-  /* Quiz */
   .quiz-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
   .quiz-back { background: none; border: none; cursor: pointer; color: var(--ink2); font-size: 0.88rem; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 6px; padding: 0; }
   .quiz-back:hover { color: var(--ink); }
-  .quiz-meta { display: flex; align-items: center; gap: 10px; }
-  .quiz-level-badge { font-size: 0.72rem; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
-  .quiz-level-badge.a1 { background: #EAF2ED; color: #2E5C3E; }
-  .quiz-level-badge.a2 { background: #EBF5FB; color: #1A5276; }
-  .quiz-level-badge.b1 { background: #F5EEF8; color: #7D3C98; }
-  .quiz-level-badge.b2 { background: #FDF2E9; color: #A04000; }
   .quiz-counter { font-size: 0.82rem; color: var(--ink3); }
 
-  /* Card + arrow layout */
   .card-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
-  .quiz-card {
-    flex: 1; background: var(--card); border: 1px solid var(--border);
-    border-radius: 20px; padding: 2.5rem 2rem; text-align: center;
-    box-shadow: var(--shadow); animation: slideIn 0.25s ease;
-  }
+  .quiz-card { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem 2rem; text-align: center; box-shadow: var(--shadow); animation: slideIn 0.25s ease; }
   @keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .next-arrow {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: var(--card); border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; flex-shrink: 0; box-shadow: var(--shadow);
-    transition: background 0.15s, transform 0.1s;
-    font-size: 1.2rem; color: var(--ink2);
-  }
+
+  .next-arrow { width: 44px; height: 44px; border-radius: 50%; background: var(--card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; box-shadow: var(--shadow); transition: background 0.15s, transform 0.1s; font-size: 1.2rem; color: var(--ink2); }
   .next-arrow:hover { background: var(--bg); color: var(--ink); }
   .next-arrow:active { transform: scale(0.95); }
   .next-arrow.hidden { visibility: hidden; }
@@ -114,75 +74,34 @@
   .dontknow-link { display: block; text-align: center; margin-top: 0.75rem; font-size: 0.82rem; color: var(--ink3); cursor: pointer; background: none; border: none; font-family: 'DM Sans', sans-serif; width: 100%; padding: 0; }
   .dontknow-link:hover { color: var(--ink2); }
 
-  /* Done */
   .done-screen { text-align: center; padding: 3rem 1rem; }
   .done-screen h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 0.6rem; }
   .done-screen p { color: var(--ink2); margin-bottom: 2rem; font-size: 0.9rem; }
   .reset-btn { padding: 0.85rem 2.5rem; border: 1.5px solid var(--ink); border-radius: 12px; background: none; color: var(--ink); font-size: 0.9rem; font-family: 'DM Sans', sans-serif; cursor: pointer; }
   .reset-btn:hover { background: var(--border); }
-
   .error-box { background: var(--red-light); border: 1px solid var(--red); border-radius: 12px; padding: 1.2rem; color: var(--red); font-size: 0.88rem; line-height: 1.6; margin-top: 1rem; }
 </style>
 </head>
 <body>
 
-<!-- Home -->
 <div class="screen active" id="screen-home">
-  <div class="home-header"><h1>Слова</h1><p>Oxford 3000 — учите английские слова по уровням</p></div>
-
-  <div class="section-title">Выберите уровень</div>
-  <div class="level-cards">
-    <div class="level-card" id="card-A1" onclick="selectLevel('A1')">
-      <div class="level-tag a1">A1</div>
-      <div class="level-desc">Beginner</div>
-      <div class="level-progress" id="prog-A1"></div>
-      <div class="level-bar"><div class="level-bar-fill a1" id="bar-A1" style="width:0%"></div></div>
-    </div>
-    <div class="level-card" id="card-A2" onclick="selectLevel('A2')">
-      <div class="level-tag a2">A2</div>
-      <div class="level-desc">Elementary</div>
-      <div class="level-progress" id="prog-A2"></div>
-      <div class="level-bar"><div class="level-bar-fill a2" id="bar-A2" style="width:0%"></div></div>
-    </div>
-    <div class="level-card" id="card-B1" onclick="selectLevel('B1')">
-      <div class="level-tag b1">B1</div>
-      <div class="level-desc">Intermediate</div>
-      <div class="level-progress" id="prog-B1"></div>
-      <div class="level-bar"><div class="level-bar-fill b1" id="bar-B1" style="width:0%"></div></div>
-    </div>
-    <div class="level-card" id="card-B2" onclick="selectLevel('B2')">
-      <div class="level-tag b2">B2</div>
-      <div class="level-desc">Upper-Intermediate</div>
-      <div class="level-progress" id="prog-B2"></div>
-      <div class="level-bar"><div class="level-bar-fill b2" id="bar-B2" style="width:0%"></div></div>
-    </div>
+  <div class="home-header"><h1>Слова</h1><p>Выберите направление перевода</p></div>
+  <div class="mode-card" onclick="startQuiz('ru-en')">
+    <div class="mode-icon ru">🇷🇺</div>
+    <div class="mode-info"><h3>Русский → Английский</h3><p>Видите русское слово — пишете по-английски</p></div>
   </div>
-
-  <div class="section-title" style="margin-top:2rem">Направление перевода</div>
-  <div class="dir-cards">
-    <div class="dir-card" id="dir-ru-en" onclick="startQuiz('ru-en')">
-      <div class="flag">🇷🇺→🇬🇧</div>
-      <h3>Рус → Англ</h3>
-      <p>Пишете по-английски</p>
-    </div>
-    <div class="dir-card" id="dir-en-ru" onclick="startQuiz('en-ru')">
-      <div class="flag">🇬🇧→🇷🇺</div>
-      <h3>Англ → Рус</h3>
-      <p>Пишете по-русски</p>
-    </div>
+  <div class="mode-card" onclick="startQuiz('en-ru')">
+    <div class="mode-icon en">🇬🇧</div>
+    <div class="mode-info"><h3>Английский → Русский</h3><p>Видите английское слово — пишете по-русски</p></div>
   </div>
+  <div class="home-stats" id="home-stats"></div>
 </div>
 
-<!-- Quiz -->
 <div class="screen" id="screen-quiz">
   <div class="quiz-top">
     <button class="quiz-back" onclick="goHome()">← Назад</button>
-    <div class="quiz-meta">
-      <span class="quiz-level-badge" id="quiz-badge"></span>
-      <span class="quiz-counter" id="quiz-counter"></span>
-    </div>
+    <span class="quiz-counter" id="quiz-counter"></span>
   </div>
-
   <div class="card-row">
     <div class="quiz-card" id="quiz-card">
       <div class="quiz-direction" id="quiz-dir"></div>
@@ -195,7 +114,6 @@
     </div>
     <div class="next-arrow hidden" id="next-arrow" onclick="animateNext()">→</div>
   </div>
-
   <div class="btn-row">
     <button class="quiz-btn" id="quiz-btn" onclick="handleBtn()">Проверить</button>
     <button class="quiz-btn secondary" id="skip-btn" onclick="skipWord()">Пропустить</button>
@@ -203,59 +121,40 @@
   <button class="dontknow-link" id="dontknow-btn" onclick="dontKnow()">Не знаю</button>
 </div>
 
-<!-- Done -->
 <div class="screen" id="screen-done">
   <div class="done-screen">
-    <h2 id="done-title">Уровень пройден!</h2>
-    <p id="done-subtitle">Все слова выучены. Попробуйте следующий уровень!</p>
-    <button class="reset-btn" onclick="resetLevel()">Начать заново</button>
-    <br><br>
-    <button class="reset-btn" onclick="goHome()">← К уровням</button>
+    <h2>Все слова выучены!</h2>
+    <p>Отличная работа!</p>
+    <button class="reset-btn" onclick="resetProgress()">Начать заново</button>
   </div>
 </div>
 
 <script>
 const STREAK_NEEDED = 3;
-const STORAGE_STATS = 'wordtrainer_oxford_v1';
-const LEVELS = ['A1','A2','B1','B2'];
-
-let allWords = {};   // { A1: [...], A2: [...], ... }
-let stats = {};      // { 'word_en': { streak, learned } }
-let currentLevel = 'A1';
-let mode = 'ru-en';
-let current = null;
-let phase = 'input';
+const STORAGE_STATS = 'wordtrainer_v3';
+let words = [], stats = {}, mode = 'ru-en', current = null, phase = 'input';
 
 async function init() {
   try {
     const res = await fetch('words.json');
     if (!res.ok) throw new Error('HTTP ' + res.status);
-    allWords = await res.json();
+    words = await res.json();
+    if (!Array.isArray(words) || !words.length) throw new Error('Пустой файл');
   } catch(e) {
     const err = document.createElement('div');
     err.className = 'error-box';
     err.innerHTML = 'Не удалось загрузить <b>words.json</b>.<br>Ошибка: ' + e.message;
-    document.getElementById('screen-home').appendChild(err);
-    show('screen-home');
+    document.getElementById('home-stats').appendChild(err);
     return;
   }
   try { const ss = localStorage.getItem(STORAGE_STATS); stats = ss ? JSON.parse(ss) : {}; } catch { stats = {}; }
-  // Init stats for all words
-  for (const level of LEVELS) {
-    (allWords[level] || []).forEach(w => {
-      if (!stats[w.en]) stats[w.en] = { streak: 0, learned: false };
-    });
-  }
+  words.forEach(w => { if (!stats[w.en]) stats[w.en] = { streak: 0, learned: false }; });
   renderHome();
 }
 
 function saveStats() { try { localStorage.setItem(STORAGE_STATS, JSON.stringify(stats)); } catch(e) {} }
 function normalize(s) { return s.trim().toLowerCase().replace(/[.,!?;:'"]/g, ''); }
-function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
-
-function activeWords() {
-  return (allWords[currentLevel] || []).filter(w => !stats[w.en]?.learned);
-}
+function activeWords() { return words.filter(w => !stats[w.en]?.learned); }
 
 function pickWord() {
   const pool = activeWords();
@@ -267,41 +166,23 @@ function pickWord() {
   return pool[pool.length - 1];
 }
 
+function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
 function renderHome() {
-  // Update level cards
-  for (const level of LEVELS) {
-    const words = allWords[level] || [];
-    const learned = words.filter(w => stats[w.en]?.learned).length;
-    const total = words.length;
-    const pct = total ? Math.round(learned/total*100) : 0;
-    document.getElementById('prog-' + level).textContent = learned + ' / ' + total + ' слов';
-    document.getElementById('bar-' + level).style.width = pct + '%';
-  }
-  // Highlight selected level
-  for (const level of LEVELS) {
-    document.getElementById('card-' + level).classList.toggle('selected', level === currentLevel);
-  }
+  const total = words.length, learned = words.filter(w => stats[w.en]?.learned).length;
+  const pct = total ? Math.round(learned/total*100) : 0;
+  document.getElementById('home-stats').innerHTML =
+    '<div class="home-stats-title">Прогресс</div>' +
+    '<div class="stat-row"><span class="stat-label">Всего слов</span><span class="stat-val">' + total + '</span></div>' +
+    '<div class="stat-row"><span class="stat-label">Выучено</span><span class="stat-val" style="color:var(--accent)">' + learned + '</span></div>' +
+    '<div class="stat-row"><span class="stat-label">Осталось</span><span class="stat-val">' + (total-learned) + '</span></div>' +
+    '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>';
   show('screen-home');
-}
-
-function selectLevel(level) {
-  currentLevel = level;
-  renderHome();
-}
-
-function startQuiz(m) {
-  mode = m;
-  if (!activeWords().length) {
-    showDone(); return;
-  }
-  nextCard();
 }
 
 function renderDots(streak, flash) {
   return Array.from({length: STREAK_NEEDED}, (_, i) => {
-    let cls = 'dot';
-    if (flash) cls += ' flash';
-    else if (i < streak) cls += ' filled';
+    let cls = 'dot'; if (flash) cls += ' flash'; else if (i < streak) cls += ' filled';
     return '<div class="' + cls + '"></div>';
   }).join('');
 }
@@ -309,81 +190,61 @@ function renderDots(streak, flash) {
 function setPhase(p) {
   phase = p;
   const mainBtn = document.getElementById('quiz-btn');
-  const skipBtn = document.getElementById('skip-btn');
-  const dontknow = document.getElementById('dontknow-btn');
   const arrow = document.getElementById('next-arrow');
   if (p === 'input') {
-    mainBtn.textContent = 'Проверить';
-    mainBtn.onclick = handleBtn;
-    skipBtn.style.display = '';
-    dontknow.style.display = '';
+    mainBtn.textContent = 'Проверить'; mainBtn.onclick = handleBtn;
+    document.getElementById('skip-btn').style.display = '';
+    document.getElementById('dontknow-btn').style.display = '';
     arrow.classList.add('hidden');
   } else {
-    mainBtn.textContent = 'Следующее →';
-    mainBtn.onclick = () => animateNext();
-    skipBtn.style.display = 'none';
-    dontknow.style.display = 'none';
+    mainBtn.textContent = 'Следующее →'; mainBtn.onclick = () => animateNext();
+    document.getElementById('skip-btn').style.display = 'none';
+    document.getElementById('dontknow-btn').style.display = 'none';
     arrow.classList.remove('hidden');
   }
 }
 
+function startQuiz(m) { mode = m; nextCard(); }
+
 function nextCard() {
   if (!activeWords().length) { showDone(); return; }
-  current = pickWord();
-  if (!current) { showDone(); return; }
-
+  current = pickWord(); if (!current) { showDone(); return; }
   setPhase('input');
   document.getElementById('quiz-dir').textContent = mode === 'ru-en' ? 'Переведите на английский' : 'Переведите на русский';
   document.getElementById('quiz-word').textContent = mode === 'ru-en' ? current.ru : current.en;
-
   const inp = document.getElementById('quiz-input');
   inp.value = ''; inp.className = 'quiz-input'; inp.disabled = false;
   document.getElementById('quiz-feedback').textContent = '';
   document.getElementById('quiz-feedback').className = 'quiz-feedback';
   document.getElementById('quiz-dots').innerHTML = renderDots(stats[current.en]?.streak || 0, false);
-
-  const levelCls = currentLevel.toLowerCase();
-  const badge = document.getElementById('quiz-badge');
-  badge.textContent = currentLevel;
-  badge.className = 'quiz-level-badge ' + levelCls;
-
-  const learned = (allWords[currentLevel]||[]).filter(w => stats[w.en]?.learned).length;
-  const total = (allWords[currentLevel]||[]).length;
-  document.getElementById('quiz-counter').textContent = learned + ' / ' + total;
-
+  const learned = words.filter(w => stats[w.en]?.learned).length;
+  document.getElementById('quiz-counter').textContent = learned + ' / ' + words.length + ' выучено';
   show('screen-quiz');
   setTimeout(() => inp.focus(), 50);
 }
 
 function handleBtn() {
   const inp = document.getElementById('quiz-input');
-  const val = inp.value.trim();
-  if (!val) return;
+  const val = inp.value.trim(); if (!val) return;
   const answer = mode === 'ru-en' ? current.en : current.ru;
   const isOk = normalize(val) === normalize(answer);
   const fb = document.getElementById('quiz-feedback');
   const dotsEl = document.getElementById('quiz-dots');
-
   if (isOk) {
     stats[current.en].streak++;
     const s = stats[current.en].streak;
-    const isLearned = s >= STREAK_NEEDED;
-    if (isLearned) stats[current.en].learned = true;
-    fb.textContent = isLearned ? '✓ Правильно! Слово выучено 🎉' : '✓ Правильно! (' + s + '/' + STREAK_NEEDED + ')';
-    fb.className = 'quiz-feedback ok';
-    inp.className = 'quiz-input ok'; inp.disabled = true;
+    if (s >= STREAK_NEEDED) stats[current.en].learned = true;
+    fb.textContent = s >= STREAK_NEEDED ? '✓ Правильно! Слово выучено 🎉' : '✓ Правильно! (' + s + '/' + STREAK_NEEDED + ')';
+    fb.className = 'quiz-feedback ok'; inp.className = 'quiz-input ok'; inp.disabled = true;
     dotsEl.innerHTML = renderDots(Math.min(s, STREAK_NEEDED), false);
-    saveStats();
-    setPhase('next');
+    saveStats(); setPhase('next');
   } else {
-    const oldStreak = stats[current.en].streak;
-    stats[current.en].streak = 0;
-    saveStats();
+    const old = stats[current.en].streak; stats[current.en].streak = 0; saveStats();
     inp.className = 'quiz-input err'; inp.disabled = true;
-    fb.textContent = '✗ Правильный ответ: ' + answer + (oldStreak > 0 ? ' — прогресс сброшен' : '');
+    fb.textContent = '✗ Правильный ответ: ' + answer + (old > 0 ? ' — прогресс сброшен' : '');
     fb.className = 'quiz-feedback err';
-    dotsEl.innerHTML = renderDots(0, oldStreak > 0);
-    if (oldStreak > 0) setTimeout(() => { dotsEl.innerHTML = renderDots(0, false); }, 700);
+    dotsEl.innerHTML = renderDots(0, old > 0);
+    if (old > 0) setTimeout(() => { dotsEl.innerHTML = renderDots(0, false); }, 700);
     setPhase('next');
   }
 }
@@ -391,16 +252,15 @@ function handleBtn() {
 function dontKnow() {
   if (phase !== 'input') return;
   const answer = mode === 'ru-en' ? current.en : current.ru;
-  const oldStreak = stats[current.en].streak;
-  stats[current.en].streak = 0; saveStats();
+  const old = stats[current.en].streak; stats[current.en].streak = 0; saveStats();
   const inp = document.getElementById('quiz-input');
   inp.disabled = true; inp.className = 'quiz-input err';
   const fb = document.getElementById('quiz-feedback');
-  fb.textContent = 'Ответ: ' + answer + (oldStreak > 0 ? ' — прогресс сброшен' : '');
+  fb.textContent = 'Ответ: ' + answer + (old > 0 ? ' — прогресс сброшен' : '');
   fb.className = 'quiz-feedback err';
   const dotsEl = document.getElementById('quiz-dots');
-  dotsEl.innerHTML = renderDots(0, oldStreak > 0);
-  if (oldStreak > 0) setTimeout(() => { dotsEl.innerHTML = renderDots(0, false); }, 700);
+  dotsEl.innerHTML = renderDots(0, old > 0);
+  if (old > 0) setTimeout(() => { dotsEl.innerHTML = renderDots(0, false); }, 700);
   setPhase('next');
 }
 
@@ -413,23 +273,15 @@ function animateNext() {
 }
 
 function goHome() { renderHome(); }
-
-function showDone() {
-  document.getElementById('done-title').textContent = currentLevel + ' — уровень пройден! 🎉';
-  document.getElementById('done-subtitle').textContent = 'Вы выучили все слова уровня ' + currentLevel + '. Попробуйте следующий уровень!';
-  show('screen-done');
-}
-
-function resetLevel() {
-  (allWords[currentLevel] || []).forEach(w => { stats[w.en] = { streak: 0, learned: false }; });
-  saveStats();
-  nextCard();
+function showDone() { show('screen-done'); }
+function resetProgress() {
+  words.forEach(w => { stats[w.en] = { streak: 0, learned: false }; });
+  saveStats(); renderHome();
 }
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && document.querySelector('#screen-quiz.active')) {
-    if (phase === 'input') handleBtn();
-    else animateNext();
+    if (phase === 'input') handleBtn(); else animateNext();
   }
 });
 
